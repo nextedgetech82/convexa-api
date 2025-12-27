@@ -53,10 +53,13 @@ CREATE TABLE lead_followups (
 
     repeat_followup BOOLEAN DEFAULT false,
     repeat_followup_type VARCHAR(20),
+
     -- daily | weekly | monthly
 
     do_not_followup BOOLEAN DEFAULT false,
 
+    disposition VARCHAR(20),
+note TEXT,
     created_by VARCHAR(150),
     created_at TIMESTAMP DEFAULT now()
 );
@@ -98,5 +101,16 @@ CREATE TABLE customergroups (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name VARCHAR(100) NOT NULL,
   is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+
+CREATE TABLE call_logs (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  lead_id UUID,
+  called_by VARCHAR(150),
+  call_start TIMESTAMP,
+  call_end TIMESTAMP,
+  duration_seconds INT,
   created_at TIMESTAMP DEFAULT now()
 );

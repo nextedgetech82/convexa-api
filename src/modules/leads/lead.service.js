@@ -114,8 +114,8 @@ exports.createFollowup = async (user, data) => {
   const result = await db.query(
     `
     INSERT INTO lead_followups
-    (lead_id, assigned_to, next_followup_date, repeat_followup, repeat_followup_type, do_not_followup)
-    VALUES ($1,$2,$3,$4,$5,$6)
+    (lead_id, assigned_to, next_followup_date, repeat_followup, repeat_followup_type, do_not_followup, disposition, note, created_by)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
     RETURNING *
     `,
     [
@@ -124,7 +124,10 @@ exports.createFollowup = async (user, data) => {
       data.next_followup_date,
       data.repeat_followup,
       data.repeat_followup_type,
-      data.do_not_followup
+      data.do_not_followup,
+      data.disposition,
+      data.note,
+      user.name
     ]
   );
 
