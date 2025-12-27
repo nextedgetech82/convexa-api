@@ -35,3 +35,18 @@ exports.createUser = async ({ orgId, name, email, password, role, mobile }) => {
     throw e;
   }
 };
+
+exports.getAssignableUsers = async (user) => {
+  //const db = getTenantPool(user.db);
+
+  const result = await masterDb.query(`
+    SELECT id, name, email
+    FROM users
+    WHERE role IN ('admin','salesman')
+    ORDER BY name
+  `);
+
+  return result.rows;
+};
+
+

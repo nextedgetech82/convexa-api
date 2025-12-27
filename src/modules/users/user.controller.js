@@ -25,3 +25,10 @@ exports.createUser = async (req, res) => {
     res.status(400).json({ message: e.message });
   }
 };
+
+exports.assignableUsers = async (req, res) => {
+  const users = await service.getAssignableUsers(req.user);
+  res.json(users);
+};
+
+

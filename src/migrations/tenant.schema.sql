@@ -84,3 +84,19 @@ CREATE TABLE callbacks (
     created_by UUID,
     status VARCHAR(20) DEFAULT 'pending'
 );
+
+
+CREATE TABLE productgroups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(100) NOT NULL,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT now()
+);
+
+
+CREATE TABLE customergroups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name VARCHAR(100) NOT NULL,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP DEFAULT now()
+);
