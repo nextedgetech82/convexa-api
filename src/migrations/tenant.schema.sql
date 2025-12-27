@@ -114,3 +114,14 @@ CREATE TABLE call_logs (
   duration_seconds INT,
   created_at TIMESTAMP DEFAULT now()
 );
+
+
+CREATE TABLE lead_calls (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  lead_id UUID REFERENCES leads(id),
+  phone VARCHAR(20),
+  call_type INT, -- incoming / outgoing / missed
+  duration_seconds INT,
+  called_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT now()
+);
