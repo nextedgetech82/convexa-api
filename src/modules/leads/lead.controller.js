@@ -10,6 +10,21 @@ exports.createFollowup = async (req, res) => {
   res.status(201).json(followup);
 };
 
+exports.createCallLog = async (req, res) => {
+  const callLog = await service.createCallLog(req.user, req.body);
+  res.status(201).json(callLog);
+};
+
+exports.getCallLogs = async (req, res) => {
+  const callLogs = await service.getCallLogs(req.user, req.params.leadId);
+  res.json(callLogs);
+};
+
+exports.getFollowups = async (req, res) => {
+  const followups = await service.getFollowups(req.user, req.params.leadId);
+  res.json(followups);
+};
+
 exports.removeFollowup = async (req, res) => {
   await service.deleteFollowup(req.user, req.params.id);
   res.json({ message: 'Followup deleted' });

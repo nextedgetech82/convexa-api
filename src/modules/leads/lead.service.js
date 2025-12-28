@@ -138,3 +138,54 @@ exports.deleteFollowup = async (user, followupId) => {
   const db = getTenantPool(user.db);
   await db.query(`DELETE FROM lead_followups WHERE id = $1`, [followupId]);
 };
+
+exports.createCallLog = async (user, data) => {
+  const db = getTenantPool(user.db);
+
+  const result = await db.query(
+    `
+    INSERT INTO lead_calls
+    (lead_id, phone, call_type, duration_seconds, called_at)
+    VALUES ($1,$2,$3,$4,$5)
+    RETURNING *
+    `,
+    [
+      data.lead_id,
+      data.phone,
+      data.call_type,
+      data.duration_seconds,
+      data.called_at,
+    ]
+  );
+
+  return result.rows[0];
+};
+
+exports.getCallLogs = async (user, leadId) => {
+  const db = getTenantPool(user.db);
+
+  let query = `SELECT * FROM lead_calls`;
+  let params = [];
+  params.push(leadId);
+
+  query += ` WHERE lead_id = $1`;  
+  query += ` ORDER BY called_at DESC`;
+
+  const result = await db.query(query, params);
+  return result.rows;
+};
+
+
+exports.getFollowups   = async (user, leadId) => {
+  const db = getTenantPool(user.db);
+
+  let query = `SELECT * FROM lead_followups`;
+  let params = [];
+  params.push(leadId);
+
+  query += ` WHERE lead_id = $1`;  
+  query += ` ORDER BY created_at DESC`;
+
+  const result = await db.query(query, params);
+  return result.rows;
+};
